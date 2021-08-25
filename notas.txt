@@ -1,0 +1,36 @@
+lambda
+Las funciones lambda no deverian sustituir las funciones def en python
+usar las funciones lambda para sustituir una funcion es una mala practica
+
+Las funciones lambda solo deberian de usarse en caso muy especificos o para competencias de programacion en las que 
+tengas que programar lo mas possible
+Por favor lean esto: https://stackoverflow.com/questions/25010167/e731-do-not-assign-a-lambda-expression-use-a-def
+
+ejemplo
+Yes:
+def f(x): return 2*x 
+No:
+f = lambda x: 2*x 
+
+
+
+Hight level funcions
+Differencias entre filter y map:
+Filter:
+Devuelve TRUE or False segun el valor este dentro de los criterios buscados o no
+En caso de que no cumpla con la condicion, no sera devuelto y la lista
+se vera reducida por este filtro.
+
+Map:
+funciona parecido pero su differencia redica en que no puede eliminar
+valores de la lista del array entregado, es decir el output tiene la misma caso
+cantidad de valures que el input.
+
+Reduce:
+Toma 2 o mas valores entregados como parametrosy el iterador como otro parametrosyRealiza la cuncion con esos valores
+y ludego con el resultado de esto el valor que le sigue en el array. Y asi hasta
+pasar por todos los valores de la lista.
+
+
+
+
