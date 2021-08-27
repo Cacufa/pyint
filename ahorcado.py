@@ -65,25 +65,17 @@ def images(status):
 
 
 def random_word():
-    with open("./archivos/wordsdb.json","r") as f:
+    '''This method renerates a ramdom word from a json db and return a tuble with the word information'''
+    with open("./archivos/wordsdb.json","r", encoding="utf-8") as f:
         words = json.loads(f.read())
-        total_words = int(len(words))
-        random_word = random.randint(1, total_words)
-    counter = 0
-    for word,value in words.items():
-        print(random_word)
-        print(word,value)
-        '''
-        if counter == random_word:
-            return word
-        else:
-            return "not found"
-        counter += 1
-        '''
-    print(counter)
 
+    with open("./archivos/palabras.txt","r", encoding="utf-8") as f:
+        words_list = [palabra.strip() for palabra in f]
+    
+    random_word_number = random.randint(0, len(words_list))
+    random_word = words_list[random_word_number]
 
-
+    return random_word, words[random_word]
 
 
 def leaders():
@@ -100,13 +92,27 @@ def game():
 
 def menu():
     '''Menu options -  print initial image'''
+    option = ""
+    while True:
+        print("Please select one option: \n\nPlay: (1)\nProcess new words from txt file: (2)\nExit (3)")
+        try:
+            option = int(input(">>"))
+            if option == 1:
+                print("play")
+            elif option == 2:
+                words_clasification()
+            elif option == 3:
+                break
+        except ValueError:
+                print("The selection is not correct or is not a number.. ")
 
-    pass
+
 
 def run():
     #words_clasification()
     ##images(1)
-    print(random_word())
+    ##print(random_word())
+    menu()
 
 if __name__ == '__main__':
     run()
