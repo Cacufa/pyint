@@ -14,9 +14,9 @@ def words_clasification():
             word = i.strip()
             chars = len(word)
             hidden = int(chars/2)
-            if len(i) < 6:
+            if len(word) < 6:
                 difficulty = "Easy"
-            elif len(i) > 6 and len(i) < 10:
+            elif len(word) > 6 and len(word) < 10:
                 difficulty = "Medium"
             else:
                 difficulty = "Hard"
@@ -34,34 +34,17 @@ def words_clasification():
 
 
 
-def images(status):
-    '''Print different images for hangman based on options'''
-    if status == 1:
-        print("="*35)
-        print("||"," "*32,"|")
-        print("||"," "*31,"___")
-        print("||"," "*29,"/ -- |")
-        print("||"," "*29,"\  ` |")
-        print("||"," "*16,"You are dead  +___+")
-        print("||"," "*28,"+  ___  +")
-        print("||"," "*27,"+   ___   +")
-        print("||"," "*31,"||")
-        print("||"," "*31,"||")
-        print("||"," "*29,"__  __")
-        print("="*40)
-    else:
-        print("="*35)
-        print("||"," "*32,"|")
-        print("||")
-        print("||")
-        print("||")
-        print("||"," "*10,"Still Alive")
-        print("||")
-        print("||")
-        print("||")
-        print("||")
-        print("||")
-        print("="*40)
+def images(pic):
+    '''Print different images for hangman based on options
+        Reference github chrishorton/hangmanwordbank.py'''
+    pics = ["  +---+\n  |   |\n      |\n      |\n      |\n      |\n=========", 
+        "  +---+\n  |   |\n  O   |\n      |\n      |\n      |\n=========",
+        "  +---+\n  |   |\n  O   |\n  |   |\n      |\n      |\n=========",
+        "  +---+\n  |   |\n  O   |\n /|   |\n      |\n      |\n=========", 
+        "  +---+\n  |   |\n  O   |\n /|\  |\n      |\n      |\n=========",
+        "  +---+\n  |   |\n  O   |\n /|\  |\n /    |\n      |\n=========",
+        "  +---+\n  |   |\n  O   |\n /|\  |\n / \  |\n      |\n========="] 
+    print(pics[pic])
 
 
 def random_word():
@@ -88,8 +71,20 @@ def points():
 
 def game():
     '''Game logic'''
-    images(1)
-    pass
+    images(0)
+    word = random_word()
+    print(f"Total Letters:{word[1]['chars']} - Hidden Letters:{word[1]['hidden']} - Difficulty:{word[1]['difficulty']}")
+    word_in_list = [letter for letter in word[0])
+    print(word_in_list[5])
+    '''----------------
+    mostrar la palabra con letras faltantes index mod 0 hide
+    poner en lista las respuesta del usuario para mapearlas y poneras en la palabra
+    buscar en palabra lista si la letra existe i retornar los indices y actualizarla
+    '''
+    
+def word_logic(word):
+
+
 
 def menu():
     '''Menu options -  print initial image'''
@@ -111,9 +106,10 @@ def menu():
 
 def run():
     #words_clasification()
-    ##images(1)
+    ##images(0)
     ##print(random_word())
-    menu()
+    ##menu()
+    game()
 
 if __name__ == '__main__':
     run()
