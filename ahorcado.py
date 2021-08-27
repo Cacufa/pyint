@@ -88,6 +88,7 @@ def points():
 
 def game():
     '''Game logic'''
+    images(1)
     pass
 
 def menu():
@@ -98,7 +99,7 @@ def menu():
         try:
             option = int(input(">>"))
             if option == 1:
-                print("play")
+                game()
             elif option == 2:
                 words_clasification()
             elif option == 3:
