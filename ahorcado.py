@@ -74,7 +74,7 @@ def game():
     images(0)
     word = random_word()
     print(f"Total Letters:{word[1]['chars']} - Hidden Letters:{word[1]['hidden']} - Difficulty:{word[1]['difficulty']}")
-    word_in_list = [letter for letter in word[0])
+    word_in_list = [letter for letter in word[0]]
     print(word_in_list[5])
     '''----------------
     mostrar la palabra con letras faltantes index mod 0 hide
@@ -82,7 +82,21 @@ def game():
     buscar en palabra lista si la letra existe i retornar los indices y actualizarla
     '''
     
-def word_logic(word):
+def word_logic(word, word_list, letters):
+    ##combierte la palabra en list, returna con espacios vacios si no pasa letra, 
+    # de lo contrario coloca las letras y devuelve la palabra
+    temp_word_list = []
+    for letter in word_list:
+        if letter in letters:
+            temp_word_list.append(letter)
+        else:
+            if int(word_list.index(letter)) % 2 == 0:
+                print(word_list.index(letter))
+                print(int(word_list.index(letter)) % 2 == 0)
+                temp_word_list.append("_")
+            else:
+                temp_word_list.append(letter)
+    print(temp_word_list)
 
 
 
@@ -109,7 +123,10 @@ def run():
     ##images(0)
     ##print(random_word())
     ##menu()
-    game()
+    letters = []
+    word_list = ['a','h','o','r','c','a','d','o']
+    word = "ahorcado"
+    word_logic(word,word_list,letters)
 
 if __name__ == '__main__':
     run()
