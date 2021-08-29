@@ -94,6 +94,7 @@ def word_logic(word, word_list, letters):
                 print(word_list.index(letter))
                 print(int(word_list.index(letter)) % 2 == 0)
                 temp_word_list.append("_")
+                input("enter")
             else:
                 temp_word_list.append(letter)
     print(temp_word_list)
