@@ -22,9 +22,6 @@ def words_clasification():
                 difficulty = "Hard"
             word_dict = {'chars':chars,'difficulty':difficulty} 
             words[word]=word_dict
-            #for key,value in words.items():
-            #    print(key,value)
-
     try:
         with open("./archivos/wordsdb.json", "w", encoding="utf-8") as f:
             words_json = json.dump(words,f)
@@ -66,11 +63,36 @@ def random_word():
 
 def leaders():
     '''keep record or leaders and points'''
-    pass
+    with open("./archivos/leader_board.json",'w') as f:
+        leaders = json.load(f.read())
+        for key, value in leaders.items:
+            print(f"Usuario {key} puntos {value}")
 
-def points():
+def points(name,points):
     '''assign points based on attempts and word difficulty'''
-    pass
+    leaders_temp = {}
+    leaders_temp[name] = int(points)
+
+    with open("./archivos/leader_board.json",'r') as f:
+        leaders = json.loads(f.read())
+
+        if name in leaders:
+            leaders[name] += points
+        else:
+            leaders[name] = points
+
+    with open("./archivos/leader_board.json",'w') as f:
+        leaders = json.dump(leaders, f)
+
+
+def normalize(letter):
+    replacements = {"á":"a","é":"e","í": "i","ó": "o","ú": "u"}
+    try: 
+        return replacements[letter]
+    except:
+        return letter
+
+
 
 def game():
     '''Game logic'''
@@ -78,28 +100,42 @@ def game():
     word_dict = random_word()
     word = word_dict[0]
     letters = []
-    while tries < len(word)+5:
+    letter = ""
+
+    while tries < len(word):
         system("cls")
         images(tries)
         print(word)
+        print("Tries: ", tries)
         print(f"Total Letters:{word_dict[1]['chars']} - Difficulty:{word_dict[1]['difficulty']}")
         temp_word = word_logic(word, letters)
         if temp_word.count("_") != 0:
             print(" ".join(temp_word))
-            letter = input("Enter the letter: ")#logica para tildes y manejo de mayusculas
-            letter = letter.lower()
-            letters.append(letter)
+            if len(letter) > 2 or letter.isnumeric():## only accept one letter digit
+                print("You can only insert one letter")
+            else:
+                letter = input("Enter the letter: ")
+                if letter not in letters: #only add words if they are new
+                    letter = letter.lower()
+                    letters.append(letter)
+                else:
+                    tries += 1 # only sum tries if the user fail
         else:
             print("You won Congratulations! ")
             name = input("please enter your name in order to add the points!: ")
+            points(name,13)
+            leaders()
+            input("Press enter to continue.")
             break
-        tries += 1
+        
+        
+
 
     
 def word_logic(word, letters):
     '''gets the word, the word_list(the word in list format) and letters, a list conaining all 
     letters that the users provided returns the list with the letters already guessed'''
-    word_list = [letter for letter in word]
+    word_list = [normalize(letter) for letter in word]
     temp_word_list = []
     for i in range(0, len(word_list)):
         if (word_list[i]).lower() in letters:
@@ -114,8 +150,10 @@ def menu():
     '''Menu options -  print initial image'''
     system("cls")
     option = ""
+    print("Welcome to the hangman grame! ")
     while True:
         print("Please select one option: \n\n(1) Play: \n(2) Process new words from txt file: \n(3) Exit ")
+        print("")
         try:
             option = int(input(">>"))
             if option == 1:
@@ -135,8 +173,8 @@ def run():
     ##images(0)
     ##print(random_word())
     menu()
-    #l = ["a","r","z"]
-    #print(word_logic("carlos", l))
+
+
 
 
 if __name__ == '__main__':
