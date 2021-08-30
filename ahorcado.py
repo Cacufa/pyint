@@ -1,6 +1,7 @@
 from io import FileIO
 import json
 import random
+from os import system
 
 def words_clasification():
     '''
@@ -13,14 +14,13 @@ def words_clasification():
         for i in f:
             word = i.strip()
             chars = len(word)
-            hidden = int(chars/2)
             if len(word) < 6:
                 difficulty = "Easy"
             elif len(word) > 6 and len(word) < 10:
                 difficulty = "Medium"
             else:
                 difficulty = "Hard"
-            word_dict = {'chars':chars,'hidden':hidden,'difficulty':difficulty}
+            word_dict = {'chars':chars,'difficulty':difficulty} 
             words[word]=word_dict
             #for key,value in words.items():
             #    print(key,value)
@@ -44,7 +44,10 @@ def images(pic):
         "  +---+\n  |   |\n  O   |\n /|\  |\n      |\n      |\n=========",
         "  +---+\n  |   |\n  O   |\n /|\  |\n /    |\n      |\n=========",
         "  +---+\n  |   |\n  O   |\n /|\  |\n / \  |\n      |\n========="] 
-    print(pics[pic])
+    try:
+        print(pics[pic])
+    except IndexError:
+        print(pics[6])
 
 
 def random_word():
@@ -71,41 +74,48 @@ def points():
 
 def game():
     '''Game logic'''
-    images(0)
-    word = random_word()
-    print(f"Total Letters:{word[1]['chars']} - Hidden Letters:{word[1]['hidden']} - Difficulty:{word[1]['difficulty']}")
-    word_in_list = [letter for letter in word[0]]
-    print(word_in_list[5])
-    '''----------------
-    mostrar la palabra con letras faltantes index mod 0 hide
-    poner en lista las respuesta del usuario para mapearlas y poneras en la palabra
-    buscar en palabra lista si la letra existe i retornar los indices y actualizarla
-    '''
-    
-def word_logic(word, word_list, letters):
-    ##combierte la palabra en list, returna con espacios vacios si no pasa letra, 
-    # de lo contrario coloca las letras y devuelve la palabra
-    temp_word_list = []
-    for letter in word_list:
-        if letter in letters:
-            temp_word_list.append(letter)
+    tries = 0
+    word_dict = random_word()
+    word = word_dict[0]
+    letters = []
+    while tries < len(word)+5:
+        system("cls")
+        images(tries)
+        print(word)
+        print(f"Total Letters:{word_dict[1]['chars']} - Difficulty:{word_dict[1]['difficulty']}")
+        temp_word = word_logic(word, letters)
+        if temp_word.count("_") != 0:
+            print(" ".join(temp_word))
+            letter = input("Enter the letter: ")#logica para tildes y manejo de mayusculas
+            letter = letter.lower()
+            letters.append(letter)
         else:
-            if int(word_list.index(letter)) % 2 == 0:
-                print(word_list.index(letter))
-                print(int(word_list.index(letter)) % 2 == 0)
-                temp_word_list.append("_")
-                input("enter")
-            else:
-                temp_word_list.append(letter)
-    print(temp_word_list)
+            print("You won Congratulations! ")
+            name = input("please enter your name in order to add the points!: ")
+            break
+        tries += 1
+
+    
+def word_logic(word, letters):
+    '''gets the word, the word_list(the word in list format) and letters, a list conaining all 
+    letters that the users provided returns the list with the letters already guessed'''
+    word_list = [letter for letter in word]
+    temp_word_list = []
+    for i in range(0, len(word_list)):
+        if (word_list[i]).lower() in letters:
+            temp_word_list.append(word_list[i])
+        else:
+            temp_word_list.append("_")
+    return (temp_word_list)
 
 
 
 def menu():
     '''Menu options -  print initial image'''
+    system("cls")
     option = ""
     while True:
-        print("Please select one option: \n\nPlay: (1)\nProcess new words from txt file: (2)\nExit (3)")
+        print("Please select one option: \n\n(1) Play: \n(2) Process new words from txt file: \n(3) Exit ")
         try:
             option = int(input(">>"))
             if option == 1:
@@ -116,6 +126,7 @@ def menu():
                 break
         except ValueError:
                 print("The selection is not correct or is not a number.. ")
+        system("cls")
 
 
 
@@ -123,11 +134,10 @@ def run():
     #words_clasification()
     ##images(0)
     ##print(random_word())
-    ##menu()
-    letters = []
-    word_list = ['a','h','o','r','c','a','d','o']
-    word = "ahorcado"
-    word_logic(word,word_list,letters)
+    menu()
+    #l = ["a","r","z"]
+    #print(word_logic("carlos", l))
+
 
 if __name__ == '__main__':
     run()
