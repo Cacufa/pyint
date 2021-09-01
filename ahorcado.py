@@ -63,10 +63,14 @@ def random_word():
 
 def leaders():
     '''keep record or leaders and points'''
-    with open("./archivos/leader_board.json",'w') as f:
-        leaders = json.load(f.read())
-        for key, value in leaders.items:
+    with open("./archivos/leader_board.json",'r') as f:
+        leaders = json.loads(f.read())
+        leaders = {k: v for k, v in sorted(leaders.items(), key=lambda item: item[1])}
+        print("")
+        print("Leader board!")
+        for key, value in leaders.items():
             print(f"Usuario {key} puntos {value}")
+        input("Press enter to continue.")
 
 def points(name,points):
     '''assign points based on attempts and word difficulty'''
@@ -101,36 +105,37 @@ def game():
     word = word_dict[0]
     letters = []
     letter = ""
+    message = ""
 
     while tries < len(word):
         system("cls")
         images(tries)
         print(word)
-        print("Tries: ", tries)
         print(f"Total Letters:{word_dict[1]['chars']} - Difficulty:{word_dict[1]['difficulty']}")
         temp_word = word_logic(word, letters)
+        print("Tries: ", tries)
+        print("Message: ",message)
         if temp_word.count("_") != 0:
             print(" ".join(temp_word))
+            letter = input("Enter the letter: ")
             if len(letter) > 2 or letter.isnumeric():## only accept one letter digit
-                print("You can only insert one letter")
+                message = "You can only insert one letter"
             else:
-                letter = input("Enter the letter: ")
                 if letter not in letters: #only add words if they are new
                     letter = letter.lower()
                     letters.append(letter)
+                    message = "Got that one"
                 else:
                     tries += 1 # only sum tries if the user fail
+                    message = "Keep it up"
         else:
-            print("You won Congratulations! ")
+            message = "You won Congratulations! "
             name = input("please enter your name in order to add the points!: ")
             points(name,13)
             leaders()
-            input("Press enter to continue.")
             break
-        
-        
 
-
+        
     
 def word_logic(word, letters):
     '''gets the word, the word_list(the word in list format) and letters, a list conaining all 
@@ -172,6 +177,8 @@ def run():
     #words_clasification()
     ##images(0)
     ##print(random_word())
+    #points("juan",9)
+    #leaders()
     menu()
 
 
